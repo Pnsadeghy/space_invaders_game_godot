@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://deixglyyrwfqm"]
+
+[ext_resource type="Script" path="res://Entities/PointsCounter/points_counter.gd" id="1_u16sr"]
+
+[node name="PointsCounter" type="Node"]
+script = ExtResource("1_u16sr")

@@ -1,0 +1,103 @@
+[gd_scene load_steps=3 format=3 uid="uid://82roprps5wou"]
+
+[ext_resource type="FontFile" uid="uid://ch103gi2tob72" path="res://Assets/font/andina.ttf" id="1_beb2a"]
+[ext_resource type="Script" path="res://Scenes/Ui/ui.gd" id="1_bfx6t"]
+
+[node name="UI" type="CanvasLayer"]
+script = ExtResource("1_bfx6t")
+
+[node name="DarkBackground" type="ColorRect" parent="."]
+visible = false
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 0.941176)
+
+[node name="HUD" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Points" type="Label" parent="HUD"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("1_beb2a")
+theme_override_font_sizes/font_size = 30
+text = "SCORE: 0"
+vertical_alignment = 1
+
+[node name="Lifes" type="HBoxContainer" parent="HUD"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="GameOver" type="MarginContainer" parent="HUD"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="HUD/GameOver"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="VBoxContainer" parent="HUD/GameOver/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Label" type="Label" parent="HUD/GameOver/CenterContainer/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.709804, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_beb2a")
+theme_override_font_sizes/font_size = 80
+text = "Game Over"
+
+[node name="Reset" type="Button" parent="HUD/GameOver/CenterContainer/HBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("1_beb2a")
+theme_override_font_sizes/font_size = 32
+action_mode = 0
+text = "Restart"
+
+[node name="Win" type="MarginContainer" parent="HUD"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="HUD/Win"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="VBoxContainer" parent="HUD/Win/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Label" type="Label" parent="HUD/Win/CenterContainer/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.709804, 1, 0, 1)
+theme_override_fonts/font = ExtResource("1_beb2a")
+theme_override_font_sizes/font_size = 80
+text = "You win!"
+
+[node name="Reset" type="Button" parent="HUD/Win/CenterContainer/HBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("1_beb2a")
+theme_override_font_sizes/font_size = 32
+action_mode = 0
+text = "Restart"
+
+[connection signal="pressed" from="HUD/GameOver/CenterContainer/HBoxContainer/Reset" to="." method="_on_reset_pressed"]
+[connection signal="pressed" from="HUD/Win/CenterContainer/HBoxContainer/Reset" to="." method="_on_reset_pressed"]

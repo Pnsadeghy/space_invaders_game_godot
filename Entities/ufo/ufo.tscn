@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://c4hdfpx4vp87b"]
+
+[ext_resource type="Script" path="res://Entities/ufo/ufo.gd" id="1_lt72n"]
+[ext_resource type="Texture2D" uid="uid://5s1qaxknbe1f" path="res://Assets/Ufo/Ufo.png" id="1_m6law"]
+[ext_resource type="Script" path="res://Entities/UfoSpawner/SpawnTimer.gd" id="3_maxwx"]
+[ext_resource type="AudioStream" uid="uid://bx2saptnhgboh" path="res://Assets/Audio/ufo.mp3" id="4_wtnbt"]
+[ext_resource type="AudioStream" uid="uid://chbbtrug4outq" path="res://Assets/Audio/ufo_shoot.mp3" id="5_vukhu"]
+[ext_resource type="AudioStream" uid="uid://wj7y0fskvsnc" path="res://Assets/Audio/little_robot_sound_factory_Explosion_02.mp3" id="6_j3nsl"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f3a3b"]
+radius = 2.5
+height = 15.0
+
+[node name="Ufo" type="Area2D"]
+scale = Vector2(4, 4)
+collision_layer = 256
+collision_mask = 4
+script = ExtResource("1_lt72n")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_m6law")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_f3a3b")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(0, 2.5)
+
+[node name="SpawnTimer" type="Timer" parent="Marker2D"]
+script = ExtResource("3_maxwx")
+min_time = 1
+max_time = 3
+
+[node name="Sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_wtnbt")
+volume_db = -20.0
+autoplay = true
+
+[node name="ShootAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_vukhu")
+volume_db = -15.0
+
+[node name="DeadAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_j3nsl")
+volume_db = -15.0
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="timeout" from="Marker2D/SpawnTimer" to="." method="_on_spawn_timer_timeout"]

@@ -1,0 +1,92 @@
+[gd_scene load_steps=12 format=3 uid="uid://qo4vd8eekm3x"]
+
+[ext_resource type="Script" path="res://Scenes/MainGame/main_game.gd" id="1_37i4v"]
+[ext_resource type="PackedScene" uid="uid://beb1yr60mw7b" path="res://Entities/Player/player.tscn" id="1_o3rfu"]
+[ext_resource type="PackedScene" uid="uid://d3pl4mge0i7js" path="res://Entities/BulletCatcher/bullet_catcher.tscn" id="2_vw255"]
+[ext_resource type="PackedScene" uid="uid://yips2rfx6pah" path="res://Entities/InvaderSpawners/invader_spawners.tscn" id="3_tvo70"]
+[ext_resource type="PackedScene" uid="uid://cmb3ilnpn0fj5" path="res://Entities/UfoSpawner/ufo_spawner.tscn" id="4_wipw3"]
+[ext_resource type="PackedScene" uid="uid://dd47mdo7plejc" path="res://Entities/Bunker/bunker.tscn" id="5_vbk7a"]
+[ext_resource type="PackedScene" uid="uid://c8bwqgqjk2ipe" path="res://Entities/LifeManager/life_manager.tscn" id="6_v7i4a"]
+[ext_resource type="PackedScene" uid="uid://deixglyyrwfqm" path="res://Entities/PointsCounter/points_counter.tscn" id="7_hvyjn"]
+[ext_resource type="PackedScene" uid="uid://82roprps5wou" path="res://Scenes/Ui/ui.tscn" id="9_8dy2w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x5j36"]
+size = Vector2(20, 665)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_duma2"]
+size = Vector2(1126, 61)
+
+[node name="main_game" type="Node"]
+script = ExtResource("1_37i4v")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Walls" type="Node" parent="."]
+
+[node name="LeftWall" type="Area2D" parent="Walls"]
+position = Vector2(-574, 0)
+collision_layer = 128
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/LeftWall"]
+shape = SubResource("RectangleShape2D_x5j36")
+
+[node name="RightWall" type="Area2D" parent="Walls"]
+position = Vector2(574, 0)
+collision_layer = 128
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/RightWall"]
+shape = SubResource("RectangleShape2D_x5j36")
+
+[node name="GameOverArea" type="Area2D" parent="Walls"]
+collision_layer = 128
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/GameOverArea"]
+position = Vector2(1, 287.5)
+shape = SubResource("RectangleShape2D_duma2")
+
+[node name="BulletCatcher" parent="." instance=ExtResource("2_vw255")]
+
+[node name="Bunkers" type="Node" parent="."]
+
+[node name="Bunker" parent="Bunkers" instance=ExtResource("5_vbk7a")]
+position = Vector2(-430, 200)
+scale = Vector2(4, 4)
+
+[node name="Bunker2" parent="Bunkers" instance=ExtResource("5_vbk7a")]
+position = Vector2(-150, 200)
+scale = Vector2(4, 4)
+
+[node name="Bunker3" parent="Bunkers" instance=ExtResource("5_vbk7a")]
+position = Vector2(150, 200)
+scale = Vector2(4, 4)
+
+[node name="Bunker4" parent="Bunkers" instance=ExtResource("5_vbk7a")]
+position = Vector2(430, 200)
+scale = Vector2(4, 4)
+
+[node name="InvaderSpawners" parent="." instance=ExtResource("3_tvo70")]
+position = Vector2(0, -190)
+
+[node name="UfoSpawner" parent="." instance=ExtResource("4_wipw3")]
+
+[node name="LifeManager" parent="." instance=ExtResource("6_v7i4a")]
+
+[node name="PointsCounter" parent="." instance=ExtResource("7_hvyjn")]
+
+[node name="Player" parent="." instance=ExtResource("1_o3rfu")]
+position = Vector2(0, 302)
+scale = Vector2(4, 4)
+
+[node name="UI" parent="." instance=ExtResource("9_8dy2w")]
+
+[connection signal="area_entered" from="Walls/LeftWall" to="InvaderSpawners" method="_on_left_wall_area_entered"]
+[connection signal="area_entered" from="Walls/RightWall" to="InvaderSpawners" method="_on_right_wall_area_entered"]
+[connection signal="area_entered" from="Walls/GameOverArea" to="." method="_on_game_over_area_area_entered"]
+[connection signal="all_invaders_destroyed" from="InvaderSpawners" to="." method="_on_invader_spawners_all_invaders_destroyed"]
+[connection signal="invader_destroyed" from="InvaderSpawners" to="PointsCounter" method="_on_invader_spawners_invader_destroyed"]
+[connection signal="life_lost" from="LifeManager" to="." method="_on_life_manager_life_lost"]
+[connection signal="on_points_increased" from="PointsCounter" to="." method="_on_points_counter_on_points_increased"]
+[connection signal="dead" from="Player" to="LifeManager" method="_on_player_dead"]

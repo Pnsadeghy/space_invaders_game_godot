@@ -1,0 +1,120 @@
+[gd_scene load_steps=6 format=3 uid="uid://b6yh0lpumu5v8"]
+
+[ext_resource type="Script" path="res://Scenes/StartScene/start_scene.gd" id="1_thptu"]
+[ext_resource type="FontFile" uid="uid://ch103gi2tob72" path="res://Assets/font/andina.ttf" id="2_rjkui"]
+[ext_resource type="Texture2D" uid="uid://m4ub6oll4ikv" path="res://Assets/Invaders/Invader3-1.png" id="3_cq0d5"]
+[ext_resource type="Texture2D" uid="uid://bn227mp3yqjlo" path="res://Assets/Invaders/Invader2-1.png" id="4_nkc1c"]
+[ext_resource type="Texture2D" uid="uid://dy2h5dklc8h7p" path="res://Assets/Invaders/Invader1-1.png" id="5_y1web"]
+
+[node name="start_scene" type="CanvasLayer"]
+script = ExtResource("1_thptu")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -268.5
+offset_top = -239.0
+offset_right = 268.5
+offset_bottom = 239.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.792157, 0.788235, 0, 1)
+theme_override_fonts/font = ExtResource("2_rjkui")
+theme_override_font_sizes/font_size = 86
+text = "SPACE
+INVADERS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="EnemyContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 16
+
+[node name="InvaderContainer_1" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer/EnemyContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer/EnemyContainer/InvaderContainer_1"]
+texture_filter = 1
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("3_cq0d5")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/EnemyContainer/InvaderContainer_1"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_rjkui")
+theme_override_font_sizes/font_size = 20
+text = " = 10 POINTS"
+vertical_alignment = 1
+
+[node name="InvaderContainer_2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer/EnemyContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer/EnemyContainer/InvaderContainer_2"]
+texture_filter = 1
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+texture = ExtResource("4_nkc1c")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/EnemyContainer/InvaderContainer_2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_rjkui")
+theme_override_font_sizes/font_size = 20
+text = " = 20 POINTS"
+vertical_alignment = 1
+
+[node name="InvaderContainer_3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer/EnemyContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer/EnemyContainer/InvaderContainer_3"]
+texture_filter = 1
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("5_y1web")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/EnemyContainer/InvaderContainer_3"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_rjkui")
+theme_override_font_sizes/font_size = 20
+text = " = 40 POINTS"
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_rjkui")
+theme_override_font_sizes/font_size = 40
+text = "CLICK TO PLAY"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.75
+autostart = true
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

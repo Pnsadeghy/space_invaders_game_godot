@@ -1,0 +1,83 @@
+[gd_scene load_steps=14 format=3 uid="uid://beb1yr60mw7b"]
+
+[ext_resource type="Script" path="res://Entities/Player/player.gd" id="1_kb6ss"]
+[ext_resource type="Texture2D" uid="uid://dt0af4o7yh41a" path="res://Assets/Player/Player.png" id="1_ntwpb"]
+[ext_resource type="Script" path="res://Entities/Player/shooting.gd" id="3_yabfx"]
+[ext_resource type="PackedScene" uid="uid://rpmqj8rosybs" path="res://Entities/Laser/laser.tscn" id="4_pqsda"]
+[ext_resource type="Texture2D" uid="uid://bi2vdab3slwgf" path="res://Assets/Player/Player-explosion1.png" id="5_ck2nd"]
+[ext_resource type="Texture2D" uid="uid://b4mk25ro2nqtu" path="res://Assets/Player/Player-explosion2.png" id="6_ghx6e"]
+[ext_resource type="Texture2D" uid="uid://dsg2krqtkgnca" path="res://Assets/Player/Player-explosion3.png" id="7_ojv04"]
+[ext_resource type="AudioStream" uid="uid://djy278cw0kqwu" path="res://Assets/Audio/player_shoot.mp3" id="8_yuc44"]
+[ext_resource type="AudioStream" uid="uid://2ry51ued574p" path="res://Assets/Audio/little_robot_sound_factory_Explosion_00.mp3" id="9_m17g2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_05yrg"]
+size = Vector2(12, 4)
+
+[sub_resource type="Animation" id="Animation_s0l30"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_ntwpb")]
+}
+
+[sub_resource type="Animation" id="Animation_dj1b2"]
+resource_name = "destroy"
+length = 2.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("5_ck2nd"), ExtResource("6_ghx6e"), ExtResource("7_ojv04"), ExtResource("5_ck2nd"), ExtResource("6_ghx6e"), ExtResource("7_ojv04"), ExtResource("5_ck2nd"), ExtResource("6_ghx6e"), ExtResource("7_ojv04")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i17lu"]
+_data = {
+"RESET": SubResource("Animation_s0l30"),
+"destroy": SubResource("Animation_dj1b2")
+}
+
+[node name="Player" type="Area2D"]
+collision_layer = 2
+collision_mask = 25
+script = ExtResource("1_kb6ss")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_ntwpb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_05yrg")
+
+[node name="ShotOrigin" type="Marker2D" parent="."]
+position = Vector2(0, -4)
+script = ExtResource("3_yabfx")
+laser_scene = ExtResource("4_pqsda")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_i17lu")
+}
+
+[node name="PlayerShoot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_yuc44")
+
+[node name="DeadAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_m17g2")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

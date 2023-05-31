@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8bwqgqjk2ipe"]
+
+[ext_resource type="Script" path="res://Entities/LifeManager/life_manager.gd" id="1_ixagl"]
+
+[node name="LifeManager" type="Node"]
+script = ExtResource("1_ixagl")
